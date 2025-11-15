@@ -55,4 +55,19 @@ class User extends Authenticatable
     {
         return $this->hasMany(Task::class, 'project_id');
     }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isManager()
+    {
+        return $this->role === 'manager';
+    }
+
+    public function isEmployee()
+    {
+        return $this->role === 'employee';
+    }
 }
