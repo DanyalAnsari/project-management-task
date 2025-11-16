@@ -34,16 +34,8 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        $rules = [
-            'name' => 'string|required|max:255',
-            'description' => 'text|nullable'
-        ];
 
-        if ($request->user()->isAdmin()) {
-            $rules['manager_id'] = 'required|exists:users,id';
-        }
-
-        $data = $request->validate($rules);
+        $data = $request->validated();
         $user = auth()->user();
 
         $project = $this->service->create($data, $user);
@@ -59,8 +51,8 @@ class ProjectController extends Controller
         $this->authorize('view', $project);
 
         $project->load(['manager', 'tasks.assignedEmployee']);
-
         $employees = User::where('role', 'employee')->orderBy('name')->get();
+
         return ['projects' => $project, 'employees' => $employees];
     }
 
@@ -79,16 +71,9 @@ class ProjectController extends Controller
     {
         $this->authorize('update', $project);
 
-        $rules = [
-            'name' => ['sometimes', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
-        ];
-        if (auth()->user()?->isAdmin()) {
-            $rules['manager_id'] = ['sometimes', 'exists:users,id'];
-        }
-
-        $data = $request->validate($rules);
+        $data = $request->validated();
         $this->service->update($data, $project);
+
         return back()->with('success', 'Project updated');
     }
 
