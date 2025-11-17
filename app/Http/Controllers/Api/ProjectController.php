@@ -44,7 +44,7 @@ class ProjectController extends BaseApiController
     public function show(Project $project)
     {
         $this->authorize('view', $project);
-        $project->load(['manager', 'tasks.assignedUser']);
+        $project->load(['manager', 'tasks.assignedEmployee']);
 
         return new ProjectResource($project);
     }
