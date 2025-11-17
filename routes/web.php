@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,4 +19,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+Route::middleware('auth')->group(function () {
+    Route::resource('projects', ProjectController::class)->except(['create', 'edit', 'show']);
+    Route::get('projects/{project}', [ProjectController::class, 'show'])
+        ->middleware('can:view,project')->name('projects.show');
+
+    Route::post('tasks', [TaskController::class, 'store'])->name('tasks.store');
+    Route::put('tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
+    Route::delete('tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
+});
+
+require __DIR__ . '/auth.php';
