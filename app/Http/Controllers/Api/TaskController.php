@@ -11,7 +11,7 @@ use App\Models\Task;
 use App\Services\TaskService;
 use Illuminate\Http\Request;
 
-class TaskController extends Controller
+class TaskController extends BaseApiController
 {
     public function __construct(private TaskService $service) {}
     /**

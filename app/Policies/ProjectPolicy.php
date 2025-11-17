@@ -50,7 +50,7 @@ class ProjectPolicy
     public function update(User $user, Project $project): bool
     {
         if ($user->isManager()) {
-            $project->manager_id === $user->id;;
+            return   $project->manager_id === $user->id;;
         }
 
         return $user->isAdmin();

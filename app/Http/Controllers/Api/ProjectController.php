@@ -9,7 +9,7 @@ use App\Models\Project;
 use App\Services\ProjectService;
 use Illuminate\Http\Request;
 
-class ProjectController extends Controller
+class ProjectController extends BaseApiController
 {
     public function __construct(private ProjectService $service) {}
     /**
@@ -17,7 +17,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $this->authorize('view', Project::class);
+        $this->authorize('viewAny', [Project::class]);
 
         $projects = $this->service->listFor(auth()->user());
 
