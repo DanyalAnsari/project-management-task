@@ -56,7 +56,7 @@ class ProjectController extends Controller
         $project->load(['manager', 'tasks.assignedEmployee']);
         $employees = User::where('role', 'employee')->orderBy('name')->get();
 
-        return ['projects' => $project, 'employees' => $employees];
+        return view('projects.show', compact('project', 'employees'));
     }
 
     /**

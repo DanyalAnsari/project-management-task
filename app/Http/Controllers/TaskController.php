@@ -38,7 +38,7 @@ class TaskController extends Controller
         $project = Project::findOrFail($data['project_id']);
         $this->authorize('create', [Task::class, $project]);
 
-        $task = $this->service->create($data, $project, $user);
+        $this->service->create($data, $project, $user);
 
         return back()->with('success', 'Task created');
     }
