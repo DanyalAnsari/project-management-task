@@ -49,12 +49,12 @@ class User extends Authenticatable
 
     public function projects()
     {
-        return $this->hasMany(Project::class, 'project_id');
+        return $this->hasMany(Project::class, 'manager_id');
     }
 
     public function assignedTasks()
     {
-        return $this->hasMany(Task::class, 'project_id');
+        return $this->hasMany(Task::class, 'assigned_to');
     }
 
     public function isAdmin()
