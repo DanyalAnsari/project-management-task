@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Project;
+use App\Models\Task;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateTaskRequest extends FormRequest
@@ -11,7 +13,8 @@ class UpdateTaskRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        $task = $this->route('task');
+        return auth()->user()?->can('update', $task) ?? false;
     }
 
     /**
@@ -21,8 +24,17 @@ class UpdateTaskRequest extends FormRequest
      */
     public function rules(): array
     {
+        $user = auth()->user();
+        if ($user && $user->isEmployee()) {
+            return ['status' => ['required', 'in:pending,in_progress,done']];
+        }
         return [
-            //
+           
+            'assigned_to' => ['sometimes', 'exists:users,id'],
+            'title' => ['sometimes', 'string', 'max:255'],
+            'description' => ['nullable', 'string'],
+            'status' => ['sometimes', 'in:pending,in_progress,done'],
+            'due_date' => ['nullable', 'date'],
         ];
     }
 }
