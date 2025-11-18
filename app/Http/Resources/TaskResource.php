@@ -18,9 +18,9 @@ class TaskResource extends JsonResource
             'id' => $this->id,
             'project_id' => $this->project_id,
             'assigned_to' => [
-                'id' => $this->assignedUser->id,
-                'name' => $this->assignedUser->name,
-                'email' => $this->assignedUser->email,
+                'id' => $this->assignedEmployee->id,
+                'name' => $this->assignedEmployee->name,
+                'email' => $this->assignedEmployee->email,
             ],
             'title' => $this->title,
             'description' => $this->description,

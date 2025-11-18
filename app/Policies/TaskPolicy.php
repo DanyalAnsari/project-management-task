@@ -46,7 +46,7 @@ class TaskPolicy
         }
 
         if ($user->isManager()) {
-            return $user->managedProjects()->where('id', $projectId)->exists();
+            return $user->projects()->where('id', $projectId)->exists();
         }
 
         return false;
