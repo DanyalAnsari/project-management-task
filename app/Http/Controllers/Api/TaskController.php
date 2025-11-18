@@ -33,7 +33,7 @@ class TaskController extends BaseApiController
         $this->authorize('create', [Task::class, $project]);
         $task = $this->service->create($data, $project, $user);
 
-        return (new TaskResource($task->load('assignedUser')))
+        return (new TaskResource($task->load('assignedEmployee')))
             ->response()->setStatusCode(201);
     }
 
@@ -54,7 +54,7 @@ class TaskController extends BaseApiController
         $user = auth()->user();
         $task = $this->service->update($data, $task, $user);
 
-        return new TaskResource($task->load('assignedUser'));
+        return new TaskResource($task->load('assignedEmployee'));
     }
 
     /**
